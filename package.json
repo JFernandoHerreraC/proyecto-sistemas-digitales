@@ -4,7 +4,7 @@
   "description": "Este es el proyecto para la materia de sistemas digitales",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.js --ignore db.json",
+    "dev": "nodemon src/index.js --ignore db.json ",
     "start": "node src/index.js"
   },
   "keywords": [],

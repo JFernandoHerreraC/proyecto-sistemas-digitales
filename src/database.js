@@ -1,15 +1,21 @@
 const path = require('path');
+const fs = require('fs');
 const low = require('lowdb');
 const FileAsync = require('lowdb/adapters/FileAsync');
 
+const dir = path.join(__dirname + '/database');
 let db;
 
-const file = path.join(__dirname + '/database/db.json');
+const file = dir + '/db.json';
 
 const structure = {
     "temperaturePerMinute": [],
     "hourlyTemperature": [],
     "temperaturePerDay": []
+}
+
+if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
 }
 
 async function createConnection() {
