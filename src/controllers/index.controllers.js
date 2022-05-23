@@ -30,6 +30,44 @@ async function calculetorMediumTemperatureAndGases() {
         arrayTemperature = [];
         arrayGases = [];
     }
+    if (getConnection().get('temperaturePerMinute').value().length >= 60) {
+        const temps = await getConnection().get('temperaturePerMinute').value();
+        temps.forEach((temp) => {
+            calculationTemperature = calculationTemperature + temp.temperatureMedium;
+            presenceOfGases = presenceOfGases + temp.presenceOfGases;
+            notPresenceOfGases = notPresenceOfGases + temp.notPresenceOfGases;
+        });
+        calculationTemperature = calculationTemperature / temps.length;
+        presenceOfGases = presenceOfGases / temps.length;
+        notPresenceOfGases = notPresenceOfGases / temps.length;
+        const hourlyTemperature = {
+            "id": v4(),
+            "temperatureMedium": calculationTemperature,
+            "presenceOfGases": presenceOfGases,
+            "notPresenceOfGases": notPresenceOfGases
+        }
+        await getConnection().get('hourlyTemperature').push(hourlyTemperature).write();
+        await getConnection().set('temperaturePerMinute',[]).write();
+    }
+    if (getConnection().get('hourlyTemperature').value().length >= 24) {
+        const temps = await getConnection().get('hourlyTemperature').value();
+        temps.forEach((temp) => {
+            calculationTemperature = calculationTemperature + temp.temperatureMedium;
+            presenceOfGases = presenceOfGases + temp.presenceOfGases;
+            notPresenceOfGases = notPresenceOfGases + temp.notPresenceOfGases;
+        });
+        calculationTemperature = calculationTemperature / temps.length;
+        presenceOfGases = presenceOfGases / temps.length;
+        notPresenceOfGases = notPresenceOfGases / temps.length;
+        const temperaturePerDay = {
+            "id": v4(),
+            "temperatureMedium": calculationTemperature,
+            "presenceOfGases": presenceOfGases,
+            "notPresenceOfGases": notPresenceOfGases
+        }
+        await getConnection().get('temperaturePerDay').push(temperaturePerDay).write();
+        await getConnection().set('hourlyTemperature',[]).write();
+    }
 }
 
 const home = async (req, res) => {
@@ -46,12 +84,12 @@ const home = async (req, res) => {
     } else if (day.value().length !== 0) {
         response = day;
     } else {
-        response =  {
+        response = {
             "id": 0,
             "temperatureMedium": 0,
             "presenceOfGases": 0,
             "notPresenceOfGases": 0
-          }
+        }
     }
 
     res.json(response.pop());
