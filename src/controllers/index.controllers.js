@@ -7,7 +7,7 @@ async function calculetorMediumTemperatureAndGases() {
     let calculationTemperature = 0;
     let presenceOfGases = 0;
     let notPresenceOfGases = 0;
-    if (arrayTemperature.length >= 60) {
+    if (arrayTemperature.length >= 2) {
         arrayTemperature.forEach((temp) => {
             calculationTemperature = calculationTemperature + temp;
         });
@@ -47,7 +47,7 @@ async function calculetorMediumTemperatureAndGases() {
             "notPresenceOfGases": notPresenceOfGases
         }
         await getConnection().get('hourlyTemperature').push(hourlyTemperature).write();
-        await getConnection().set('temperaturePerMinute',[]).write();
+        await getConnection().set('temperaturePerMinute', []).write();
     }
     if (getConnection().get('hourlyTemperature').value().length >= 24) {
         const temps = await getConnection().get('hourlyTemperature').value();
@@ -66,7 +66,7 @@ async function calculetorMediumTemperatureAndGases() {
             "notPresenceOfGases": notPresenceOfGases
         }
         await getConnection().get('temperaturePerDay').push(temperaturePerDay).write();
-        await getConnection().set('hourlyTemperature',[]).write();
+        await getConnection().set('hourlyTemperature', []).write();
     }
 }
 
@@ -91,8 +91,7 @@ const home = async (req, res) => {
             "notPresenceOfGases": 0
         }
     }
-
-    res.json(response.pop());
+    res.render('index', { response: response.value() });
 }
 
 const receivedTemp = (req, res) => {
