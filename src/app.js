@@ -10,7 +10,8 @@ const app = express();
 
 // settings
 app.set('port', port);
-
+app.use(express.urlencoded({extended: false}));
+app.use(express.json());
 //local files
 app.set('views', path.join(__dirname, 'views'));
 

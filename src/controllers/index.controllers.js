@@ -3,11 +3,17 @@ const { v4 } = require('uuid');
 let arrayTemperature = [];
 let arrayGases = [];
 
+function getTime() {
+    const tiempoTrans = Date.now();
+    const day = new Date (tiempoTrans)
+    return day.toDateString();
+}
+
 async function calculetorMediumTemperatureAndGases() {
     let calculationTemperature = 0;
     let presenceOfGases = 0;
     let notPresenceOfGases = 0;
-    if (arrayTemperature.length >= 2) {
+    if (arrayTemperature.length >= 60) {
         arrayTemperature.forEach((temp) => {
             calculationTemperature = calculationTemperature + temp;
         });
@@ -24,7 +30,8 @@ async function calculetorMediumTemperatureAndGases() {
             "id": v4(),
             "temperatureMedium": calculationTemperature,
             "presenceOfGases": presenceOfGases,
-            "notPresenceOfGases": notPresenceOfGases
+            "notPresenceOfGases": notPresenceOfGases,
+            "Time": getTime()
         }
         await getConnection().get('temperaturePerMinute').push(temperaturePerMinute).write();
         arrayTemperature = [];
@@ -44,7 +51,8 @@ async function calculetorMediumTemperatureAndGases() {
             "id": v4(),
             "temperatureMedium": calculationTemperature,
             "presenceOfGases": presenceOfGases,
-            "notPresenceOfGases": notPresenceOfGases
+            "notPresenceOfGases": notPresenceOfGases,
+            "Time": getTime()
         }
         await getConnection().get('hourlyTemperature').push(hourlyTemperature).write();
         await getConnection().set('temperaturePerMinute', []).write();
@@ -63,7 +71,8 @@ async function calculetorMediumTemperatureAndGases() {
             "id": v4(),
             "temperatureMedium": calculationTemperature,
             "presenceOfGases": presenceOfGases,
-            "notPresenceOfGases": notPresenceOfGases
+            "notPresenceOfGases": notPresenceOfGases,
+            "Time": getTime()
         }
         await getConnection().get('temperaturePerDay').push(temperaturePerDay).write();
         await getConnection().set('hourlyTemperature', []).write();
@@ -102,12 +111,30 @@ const receivedTemp = (req, res) => {
     res.send('received the data');
 }
 
+const data = async (req, res) => {
+    const minute = await getConnection().get('temperaturePerMinute').value();
+    const hour = await getConnection().get('hourlyTemperature').value();
+    const day = await getConnection().get('temperaturePerDay').value();
+    const response = {
+        temperaturePerMinute: minute,
+        hourlyTemperature:hour,
+        temperaturePerDay: day
+    }
+    res.json(response);
+}
+
+const graphics = async (req, res) => {
+    res.render('graphics');
+}
+
 const notFound = (req, res) => {
     res.send('Route not found!')
 }
 
 module.exports = {
     home,
+    graphics,
     receivedTemp,
+    data,
     notFound
 }
