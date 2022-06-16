@@ -1,5 +1,6 @@
 const { getConnection } = require('../database');
 const { v4 } = require('uuid');
+require('../webpush');
 let arrayTemperature = [];
 let arrayGases = [];
 
@@ -127,6 +128,17 @@ const graphics = async (req, res) => {
     res.render('graphics');
 }
 
+const subscription = (req, res) => {
+    console.log(req.body);
+    res.status(201).json();
+}
+
+const worker = (req, res) => {
+    res.writeHead(201, {
+        'Content-Type': 'application/javascript'
+    });
+}
+
 const notFound = (req, res) => {
     res.send('Route not found!')
 }
@@ -136,5 +148,7 @@ module.exports = {
     graphics,
     receivedTemp,
     data,
+    worker,
+    subscription,
     notFound
 }

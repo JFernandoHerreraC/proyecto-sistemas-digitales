@@ -1,17 +1,19 @@
 const express = require('express');
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
 const { renderFile } = require('ejs');
 const path = require('path');
 
 const { port } = require('./config/config');
-
+require('./webpush');
 // initializations
 const app = express();
 
 // settings
 app.set('port', port);
 app.use(express.urlencoded({extended: false}));
-app.use(express.json());
+//app.use(express.json());
+app.use(bodyParser.json())
 //local files
 app.set('views', path.join(__dirname, 'views'));
 

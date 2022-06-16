@@ -10,19 +10,19 @@
 <body>
     <%- include('components/navbar.html')%>
     <div class="container">
-        <div class="row">
-            <div class="card mt-5 col-md-8 mx-auto rounded">
+        <div class="col-md-8 mx-auto">
+            <div class="card rounded top">
                 <div class="card-body">
                     <h3 class="text-center" > <%- response[response.length - 1].temperatureMedium-%> °</h3>
-                <%if( response[response.length - 1].notPresenceOfGases > response[response.length - 1].presenceOfGases) {%>
-                    <p class="text-center">Without the presence of gases</p> 
-                <%} else {%>
-                    <p class="text-center">With the presence of gases</p>
-                <%}%>
+                    <%if( response[response.length - 1].notPresenceOfGases > response[response.length - 1].presenceOfGases) {%>
+                        <p class="text-center">Without the presence of gases</p> 
+                    <%} else {%>
+                        <p class="text-center">With the presence of gases</p>
+                    <%}%>
                 </div>
             </div>
         </div>
     </div>
-    
+    <%- include('partials/footer.html') -%>
 </body>
 </html>

@@ -10,25 +10,31 @@
 <body>
     <%- include('components/navbar.html')%>
     <div class="container">
-        <div class="row mt-5 mx-auto">
-            <div class="card">
-                <div class="card-body">
-                    <div>
-                        <canvas id="graphics_minute"></canvas>
-                    </div>        
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <div>
-                        <canvas id="graphics_hour"></canvas>
+        <div class="row">
+            <div class="col-md-4 top">
+                <div class="card rounded">
+                    <div class="card-body">
+                        <div>
+                            <canvas id="graphics_minute"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="card">
-                <div class="card-body">
-                    <div>
-                        <canvas id="graphics_day"></canvas>
+            <div class="col-md-4 top">
+                <div class="card rounded">
+                    <div class="card-body">
+                        <div>
+                            <canvas id="graphics_hour"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 top">
+                <div class="card rounded">
+                    <div class="card-body">
+                        <div>
+                            <canvas id="graphics_day"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
