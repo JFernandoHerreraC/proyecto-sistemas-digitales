@@ -13,7 +13,7 @@
         <div class="col-md-8 mx-auto">
             <div class="card rounded top">
                 <div class="card-body">
-                    <h3 class="text-center" > <%- response[response.length - 1].temperatureMedium-%> °</h3>
+                    <h3 class="text-center" > <%- response[response.length - 1].temperatureMedium.toFixed(2) -%> °</h3>
                     <%if( response[response.length - 1].notPresenceOfGases > response[response.length - 1].presenceOfGases) {%>
                         <p class="text-center">Without the presence of gases</p> 
                     <%} else {%>
